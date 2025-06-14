@@ -6,6 +6,7 @@ pub struct ReturnChannel<T> {
 }
 
 impl<T> ReturnChannel<T> {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new() -> (ReturnChannelSender<T>, ReturnChannelReceiver<T>) {
         let inner = ReturnChannel {
             value: Mutex::new(None),
@@ -21,8 +22,8 @@ impl<T> ReturnChannel<T> {
     }
 }
 
-struct ReturnChannelReceiver<T>(Arc<ReturnChannel<T>>);
-struct ReturnChannelSender<T>(Arc<ReturnChannel<T>>);
+pub struct ReturnChannelReceiver<T>(Arc<ReturnChannel<T>>);
+pub struct ReturnChannelSender<T>(Arc<ReturnChannel<T>>);
 
 impl<T> ReturnChannelReceiver<T> {
     pub fn receive(self) -> T {
