@@ -1,5 +1,6 @@
 use std::sync::{Arc, Condvar, Mutex};
 
+/// Operates similarly to the `oneshot` channel in tokio
 pub struct ReturnChannel<T> {
     value: Mutex<Option<T>>,
     condvar: Condvar,
@@ -52,6 +53,7 @@ impl<T> ReturnChannelSender<T> {
 #[cfg(test)]
 mod test {
     pub use super::*;
+    use std::time::Duration;
 
     #[test]
     fn test_channel_single_thread() {
@@ -69,6 +71,7 @@ mod test {
         let (tx, rx) = ReturnChannel::new();
 
         std::thread::spawn(|| {
+            std::thread::sleep(Duration::from_millis(500));
             tx.send(42);
         });
 
