@@ -37,8 +37,8 @@ impl NullHash {
             *loc = *byte;
         }
     }
-    pub fn complete(self) -> BITS256 {
-        self.hash
+    pub fn complete(self) -> HashReturn {
+        HashReturn::RAW(Arc::new(self.hash))
     }
 }
 
@@ -53,7 +53,7 @@ mod test {
             hasher.digest([i; 1]);
         }
 
-        assert_eq!(*hasher.complete().first().unwrap(), 31);
+        assert_eq!(*hasher.complete().into_bytes().first().unwrap(), 31);
     }
 
     #[test]
@@ -68,7 +68,7 @@ mod test {
 
         hasher.digest(source_bytes);
 
-        let result = hasher.complete();
+        let result = hasher.complete().into_bytes();
 
         let start = 255 - 32u8;
         for (byte, i) in result.iter().zip(start..=255) {
