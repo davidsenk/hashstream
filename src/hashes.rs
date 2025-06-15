@@ -22,7 +22,7 @@ fn arc_u8_empty() -> ArcU8 {
 }
 
 #[derive(Debug, PartialEq)]
-enum HashReturn {
+pub enum HashReturn {
     CRC32(BITS32),
     SHA256(BITS256),
     SHA3_256(BITS256),
@@ -44,9 +44,10 @@ impl HashReturn {
     }
 }
 
-enum HashOp {
-    Digest(ArcU8),
-    Complete,
+pub trait Hasher {
+    fn new() -> Self;
+    fn digest(&mut self, bytes: ArcU8);
+    fn complete(self) -> HashReturn;
 }
 
 struct HashKeeper {}

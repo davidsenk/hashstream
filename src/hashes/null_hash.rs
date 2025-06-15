@@ -18,11 +18,11 @@ pub struct NullHash {
     hash: BITS256,
 }
 
-impl NullHash {
-    pub fn new() -> Self {
+impl Hasher for NullHash {
+    fn new() -> Self {
         NullHash { hash: [0; 32] }
     }
-    pub fn digest(&mut self, bytes: impl AsRef<[u8]>) {
+    fn digest(&mut self, bytes: ArcU8) {
         let bytes = bytes.as_ref();
 
         let start_point = if bytes.len() < 32 {
@@ -37,7 +37,7 @@ impl NullHash {
             *loc = *byte;
         }
     }
-    pub fn complete(self) -> HashReturn {
+    fn complete(self) -> HashReturn {
         HashReturn::RAW(Arc::new(self.hash))
     }
 }
@@ -50,7 +50,7 @@ mod test {
         let mut hasher = NullHash::new();
 
         for i in 0..32u8 {
-            hasher.digest([i; 1]);
+            hasher.digest(Arc::new([i; 1]));
         }
 
         assert_eq!(*hasher.complete().into_bytes().first().unwrap(), 31);
@@ -66,7 +66,7 @@ mod test {
             *byte = i;
         }
 
-        hasher.digest(source_bytes);
+        hasher.digest(Arc::new(source_bytes));
 
         let result = hasher.complete().into_bytes();
 
