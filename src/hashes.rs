@@ -2,6 +2,7 @@ mod null_hash;
 
 use crate::Args;
 
+use md5::digest;
 use std::sync::Arc;
 
 type BITS256 = [u8; 32];
@@ -46,12 +47,8 @@ impl HashReturn {
 
 pub trait Hasher {
     fn new() -> Self;
-    fn digest(&mut self, bytes: ArcU8);
+    fn digest(&mut self, bytes: impl AsRef<[u8]>);
     fn complete(self) -> HashReturn;
 }
 
-struct HashKeeper {}
-
-pub struct Hashes {
-    hashes: Args,
-}
+pub struct Hashes {}

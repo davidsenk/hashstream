@@ -22,7 +22,7 @@ impl Hasher for NullHash {
     fn new() -> Self {
         NullHash { hash: [0; 32] }
     }
-    fn digest(&mut self, bytes: ArcU8) {
+    fn digest(&mut self, bytes: impl AsRef<[u8]>) {
         let bytes = bytes.as_ref();
 
         let start_point = if bytes.len() < 32 {
@@ -50,7 +50,7 @@ mod test {
         let mut hasher = NullHash::new();
 
         for i in 0..32u8 {
-            hasher.digest(Arc::new([i; 1]));
+            hasher.digest([i; 1]);
         }
 
         assert_eq!(*hasher.complete().into_bytes().first().unwrap(), 31);
@@ -66,7 +66,7 @@ mod test {
             *byte = i;
         }
 
-        hasher.digest(Arc::new(source_bytes));
+        hasher.digest(source_bytes);
 
         let result = hasher.complete().into_bytes();
 
