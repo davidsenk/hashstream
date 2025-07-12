@@ -16,4 +16,5 @@ unsafe_code = "forbid"
 
 [dependencies]
 clap = { version = "4.5.40", features = ["derive"] }
+md-5 = "0.10.6"
 
