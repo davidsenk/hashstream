@@ -24,6 +24,7 @@ mod test {
 
     #[test]
     fn test_md5_hash() {
-        todo!();
+        let input = "HelloWorld";
+        let expected_output = todo!();
     }
 }
