@@ -1,12 +1,19 @@
+mod blake256;
+mod crc32;
+mod md5;
 mod null_hash;
+mod sha1;
+mod sha256;
+mod sha3_256;
 
 use crate::Args;
 
-use md5::digest;
 use std::sync::Arc;
 
 type BITS256 = [u8; 32];
 type BITS160 = [u8; 20];
+
+type BITS128 = [u8; 16];
 
 type BITS32 = u32;
 
@@ -29,6 +36,7 @@ pub enum HashReturn {
     SHA3_256(BITS256),
     BLAKE256(BITS256),
     SHA1(BITS160),
+    MD5(BITS128),
     RAW(ArcU8),
 }
 
@@ -40,6 +48,7 @@ impl HashReturn {
             HashReturn::SHA3_256(inner) => Arc::new(inner),
             HashReturn::BLAKE256(inner) => Arc::new(inner),
             HashReturn::SHA1(inner) => Arc::new(inner),
+            HashReturn::MD5(inner) => Arc::new(inner),
             HashReturn::RAW(inner) => inner,
         }
     }
