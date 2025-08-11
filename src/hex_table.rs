@@ -44,6 +44,7 @@ pub const fn u8_to_lower_hex(value: u8) -> &'static str {
     HEX_TABLE_LOWER[value as usize]
 }
 
+#[derive(Debug)]
 enum EncodeError {
     VALUE_EXCEEDS_OUTPUT_CAPACITY,
 }
@@ -53,33 +54,106 @@ const fn u8_to_string(
     output: &mut [char],
     table: [&'static str; 256],
 ) -> Result<(), EncodeError> {
-    if values.len() * 2 < output.len() {
+    if values.len() * 2 > output.len() {
         Err(EncodeError::VALUE_EXCEEDS_OUTPUT_CAPACITY)
     } else {
         let len = values.len();
         let mut iter = 0;
         while iter < len {
-            iter += 1;
             let value = values[iter as usize] as usize;
             let lu = table[value].as_bytes();
             let pos = iter * 2;
             output[pos] = lu[0] as char;
             output[pos + 1] = lu[1] as char;
+            iter += 1;
         }
         Ok(())
     }
 }
 
-pub const fn u8_array_to_lower_hex_string(
+pub const fn u8_array_to_lower_hex_chars(
     values: &[u8],
     output: &mut [char],
 ) -> Result<(), EncodeError> {
     u8_to_string(values, output, HEX_TABLE_LOWER)
 }
 
-pub const fn u8_array_to_upper_hex_string(
+pub const fn u8_array_to_upper_hex_chars(
     values: &[u8],
     output: &mut [char],
 ) -> Result<(), EncodeError> {
     u8_to_string(values, output, HEX_TABLE_UPPER)
+}
+
+pub fn u8_array_to_lower_hex_string(values: &[u8]) -> Result<String, EncodeError> {
+    let len = values.len() * 2;
+    let mut output = Vec::with_capacity(len);
+    for i in 0..len {
+        output.push('!');
+    }
+
+    u8_array_to_lower_hex_chars(values, output.as_mut_slice())?;
+
+    Ok(String::from_iter(output))
+}
+
+pub fn u8_array_to_upper_hex_string(values: &[u8]) -> Result<String, EncodeError> {
+    let len = values.len() * 2;
+    let mut output = Vec::with_capacity(len);
+    for i in 0..len {
+        output.push('!');
+    }
+
+    u8_array_to_upper_hex_chars(values, output.as_mut_slice())?;
+
+    Ok(String::from_iter(output))
+}
+
+#[cfg(test)]
+pub mod test {
+    use super::*;
+
+    #[test]
+    fn test_upper_string() {
+        let expected = "FFFF0001090F";
+
+        let input = [255u8, 255, 0, 1, 9, 15];
+
+        let convert = u8_array_to_upper_hex_string(&input).unwrap();
+
+        assert_eq!(convert, expected);
+    }
+
+    #[test]
+    fn test_lower_string() {
+        let expected = "ffff0001090f";
+
+        let input = [255u8, 255, 0, 1, 9, 15];
+
+        let convert = u8_array_to_lower_hex_string(&input).unwrap();
+
+        assert_eq!(convert, expected);
+    }
+
+    #[test]
+    fn test_lower_hex() {
+        let expected = "ff";
+
+        let input = 255u8;
+
+        let convert = u8_to_lower_hex(input);
+
+        assert_eq!(convert, expected);
+    }
+
+    #[test]
+    fn test_upper_hex() {
+        let expected = "FF";
+
+        let input = 255u8;
+
+        let convert = u8_to_upper_hex(input);
+
+        assert_eq!(convert, expected);
+    }
 }
