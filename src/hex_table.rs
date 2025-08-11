@@ -45,7 +45,7 @@ pub const fn u8_to_lower_hex(value: u8) -> &'static str {
 }
 
 #[derive(Debug)]
-enum EncodeError {
+pub enum EncodeError {
     VALUE_EXCEEDS_OUTPUT_CAPACITY,
 }
 
