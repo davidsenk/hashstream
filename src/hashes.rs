@@ -1,4 +1,5 @@
 mod blake256;
+mod blake3;
 mod crc32;
 mod md5;
 mod null_hash;
@@ -35,6 +36,7 @@ pub enum HashReturn {
     SHA256(BITS256),
     SHA3_256(BITS256),
     BLAKE256(BITS256),
+    BLAKE3(BITS256),
     SHA1(BITS160),
     MD5(BITS128),
     RAW(ArcU8),
@@ -47,6 +49,7 @@ impl HashReturn {
             HashReturn::SHA256(inner) => Arc::new(inner),
             HashReturn::SHA3_256(inner) => Arc::new(inner),
             HashReturn::BLAKE256(inner) => Arc::new(inner),
+            HashReturn::BLAKE3(inner) => Arc::new(inner),
             HashReturn::SHA1(inner) => Arc::new(inner),
             HashReturn::MD5(inner) => Arc::new(inner),
             HashReturn::RAW(inner) => inner,
