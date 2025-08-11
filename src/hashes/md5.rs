@@ -1,20 +1,29 @@
 use super::*;
+use ::md5::digest::core_api::CoreWrapper;
+use ::md5::{Digest, Md5, Md5Core};
 
 pub struct MD5 {
     hash: BITS128,
+    hasher: CoreWrapper<Md5Core>,
 }
 
 impl Hasher for MD5 {
     fn new() -> Self {
-        MD5 { hash: [0; 16] }
+        MD5 {
+            hash: [0; 16],
+            hasher: Md5::new(),
+        }
     }
 
     fn digest(&mut self, bytes: impl AsRef<[u8]>) {
-        todo!()
+        self.hasher.update(bytes.as_ref())
     }
 
     fn complete(self) -> HashReturn {
-        todo!()
+        let res = self.hasher.finalize();
+        let mut ret = BITS128::default();
+        ret.copy_from_slice(&res);
+        HashReturn::MD5(ret)
     }
 }
 
@@ -25,6 +34,16 @@ mod test {
     #[test]
     fn test_md5_hash() {
         let input = "HelloWorld";
-        let expected_output = todo!();
+        let expected_output = "68e109f0f40ca72a15e05cc22786f8e6";
+
+        let mut md5 = MD5::new();
+
+        md5.digest(input);
+
+        let result = md5.complete().into_bytes();
+
+        let hash_out = crate::hex_table::u8_array_to_lower_hex_string(&result).unwrap();
+
+        assert_eq!(hash_out, expected_output);
     }
 }
