@@ -54,7 +54,7 @@ pub enum HashReturn {
 impl HashReturn {
     pub fn into_bytes(self) -> Arc<[u8]> {
         match self {
-            HashReturn::CRC32(inner) => Arc::new(inner.to_le_bytes()),
+            HashReturn::CRC32(inner) => Arc::new(inner.to_be_bytes()),
             HashReturn::SHA256(inner) => Arc::new(inner),
             HashReturn::SHA3_256(inner) => Arc::new(inner),
             HashReturn::BLAKE256(inner) => Arc::new(inner),
