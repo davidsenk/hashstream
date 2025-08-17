@@ -19,11 +19,10 @@ impl Hasher for MD5 {
         self.hasher.update(bytes.as_ref())
     }
 
-    fn complete(self) -> HashReturn {
+    fn complete(mut self) -> HashReturn {
         let res = self.hasher.finalize();
-        let mut ret = BITS128::default();
-        ret.copy_from_slice(&res);
-        HashReturn::MD5(ret)
+        self.hash.copy_from_slice(&res);
+        HashReturn::MD5(self.hash)
     }
 }
 

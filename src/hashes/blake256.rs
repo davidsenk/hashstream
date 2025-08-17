@@ -20,11 +20,10 @@ impl Hasher for BLAKE256 {
         self.hasher.update(bytes.as_ref())
     }
 
-    fn complete(self) -> HashReturn {
+    fn complete(mut self) -> HashReturn {
         let res = self.hasher.finalize_boxed();
-        let mut ret = BITS256::default();
-        ret.copy_from_slice(&res);
-        HashReturn::BLAKE256(ret)
+        self.hash.copy_from_slice(&res);
+        HashReturn::BLAKE256(self.hash)
     }
 }
 

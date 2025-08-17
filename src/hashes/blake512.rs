@@ -22,11 +22,10 @@ impl Hasher for BLAKE512 {
         self.hasher.update(bytes.as_ref())
     }
 
-    fn complete(self) -> HashReturn {
+    fn complete(mut self) -> HashReturn {
         let res = self.hasher.finalize_boxed();
-        let mut ret = bits512_default();
-        ret.copy_from_slice(&res);
-        HashReturn::BLAKE512(ret)
+        self.hash.copy_from_slice(&res);
+        HashReturn::BLAKE512(self.hash)
     }
 }
 

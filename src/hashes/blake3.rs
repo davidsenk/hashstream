@@ -17,11 +17,10 @@ impl Hasher for BLAKE3 {
         self.hasher.update(bytes.as_ref());
     }
 
-    fn complete(self) -> HashReturn {
+    fn complete(mut self) -> HashReturn {
         let res = self.hasher.finalize();
-        let mut ret = BITS256::default();
-        ret.copy_from_slice(res.as_bytes());
-        HashReturn::BLAKE3(ret)
+        self.hash.copy_from_slice(res.as_bytes());
+        HashReturn::BLAKE3(self.hash)
     }
 }
 
