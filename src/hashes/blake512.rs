@@ -3,16 +3,18 @@ use ::blake2::Blake2bVarCore;
 use ::blake2::digest::{Update, VariableOutput};
 use blake2::digest::core_api::RtVariableCoreWrapper;
 
-pub struct BLAKE256 {
-    hash: BITS256,
+pub struct BLAKE512 {
+    hash: BITS512,
     hasher: RtVariableCoreWrapper<Blake2bVarCore>,
 }
 
-impl Hasher for BLAKE256 {
+impl Hasher for BLAKE512 {
     fn new() -> Self {
-        BLAKE256 {
-            hash: [0; 32],
-            hasher: ::blake2::Blake2bVar::new(32).unwrap(),
+        BLAKE512 {
+            hash: [0; 64],
+            // Variable size was done instead of using Blake2b512 type alias as the concrete type
+            // that would need to be defined in the struct BLAKE512 is silly
+            hasher: ::blake2::Blake2bVar::new(64).unwrap(),
         }
     }
 
@@ -22,9 +24,9 @@ impl Hasher for BLAKE256 {
 
     fn complete(self) -> HashReturn {
         let res = self.hasher.finalize_boxed();
-        let mut ret = BITS256::default();
+        let mut ret = bits512_default();
         ret.copy_from_slice(&res);
-        HashReturn::BLAKE256(ret)
+        HashReturn::BLAKE512(ret)
     }
 }
 
@@ -33,11 +35,11 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_blake256_hash() {
+    fn test_blake512_hash() {
         let input = "HelloWorld";
-        let expected_output = "27159ce7d992c98fb04d5e9a59e43e75f77882b676fc6b2ccb8e952c2373da3e";
+        let expected_output = "8dc77b2e140c3601a9fdd146684dea960124c514b999314be65fafe189cecee9bb1395cc80826aa1b8464de775678d13bfd332c51aafd026b9b5a67e606430f3";
 
-        let mut blake2 = BLAKE256::new();
+        let mut blake2 = BLAKE512::new();
 
         blake2.digest(input);
 

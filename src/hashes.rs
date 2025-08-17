@@ -1,5 +1,7 @@
 mod blake256;
+
 mod blake3;
+mod blake512;
 mod crc32;
 mod md5;
 mod null_hash;
@@ -10,6 +12,8 @@ mod sha3_256;
 use crate::Args;
 
 use std::sync::Arc;
+
+type BITS512 = [u8; 64];
 
 type BITS256 = [u8; 32];
 type BITS160 = [u8; 20];
@@ -30,12 +34,17 @@ fn arc_u8_empty() -> ArcU8 {
     arc_u8_sized!(0)
 }
 
+fn bits512_default() -> BITS512 {
+    [0; 64]
+}
+
 #[derive(Debug, PartialEq)]
 pub enum HashReturn {
     CRC32(BITS32),
     SHA256(BITS256),
     SHA3_256(BITS256),
     BLAKE256(BITS256),
+    BLAKE512(BITS512),
     BLAKE3(BITS256),
     SHA1(BITS160),
     MD5(BITS128),
@@ -49,6 +58,7 @@ impl HashReturn {
             HashReturn::SHA256(inner) => Arc::new(inner),
             HashReturn::SHA3_256(inner) => Arc::new(inner),
             HashReturn::BLAKE256(inner) => Arc::new(inner),
+            HashReturn::BLAKE512(inner) => Arc::new(inner),
             HashReturn::BLAKE3(inner) => Arc::new(inner),
             HashReturn::SHA1(inner) => Arc::new(inner),
             HashReturn::MD5(inner) => Arc::new(inner),

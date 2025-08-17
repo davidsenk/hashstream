@@ -25,6 +25,9 @@ pub struct Args {
     /// Blake2b256
     #[arg(long)]
     pub blake256: bool,
+    /// Blake2b512
+    #[arg(long)]
+    pub blake512: bool,
     /// Blake3
     #[arg(long)]
     pub blake3: bool,
