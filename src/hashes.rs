@@ -9,8 +9,6 @@ mod sha1;
 mod sha256;
 mod sha3_256;
 
-use crate::Args;
-
 use std::sync::Arc;
 
 type BITS512 = [u8; 64];

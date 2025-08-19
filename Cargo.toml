@@ -11,6 +11,10 @@ license = "Apache-2.0"
 keywords = ["hash", "console", "cli", "stream"]
 categories = ["command-line-utilities", "development-tools"]
 
+[features]
+default = ["nobin"]
+nobin = []
+
 [lints.rust]
 unsafe_code = "forbid"
 

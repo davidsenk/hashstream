@@ -1,9 +1,10 @@
-use clap::Parser;
-use hashstream::Args;
+#![cfg(not(feature = "nobin"))]
 
-pub struct Hashes {
-    hashes: Args,
-}
+mod args;
+use args::Args;
+
+use clap::Parser;
+
 fn main() {
     let args = Args::parse();
     println!("Hello, world!");
