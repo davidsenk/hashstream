@@ -3,7 +3,13 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(version, about = None, long_about = None)]
 pub struct Args {
-    #[arg(default_value_t = false)]
+    /// Enable all hash types, can not be used with any other hash type flag
+    /// [DEFAULT]
+    #[arg(long, conflicts_with_all =
+        ["sha256", "sha3_256", "sha1", "crc32_iso", "crc32_posix", "crc32_xfer",
+         "blake256", "blake512", "blake3", "md5"],
+    )]
+    pub all: bool,
     /// SHA2-256
     #[arg(long)]
     pub sha256: bool,
