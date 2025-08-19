@@ -3,6 +3,7 @@ mod blake256;
 mod blake3;
 mod blake512;
 mod crc32;
+pub use crc32::CRC32TYPE;
 mod md5;
 mod null_hash;
 mod sha1;
@@ -61,6 +62,42 @@ impl HashReturn {
             HashReturn::SHA1(inner) => Arc::new(inner),
             HashReturn::MD5(inner) => Arc::new(inner),
             HashReturn::RAW(inner) => inner,
+        }
+    }
+
+    pub fn as_hex(self) -> String {
+        crate::u8_array_to_lower_hex_string(&self.into_bytes()).unwrap()
+    }
+
+    pub fn serialize(self) -> String {
+        match self {
+            HashReturn::CRC32(_, t) => {
+                format!("crc32_{t:?}: {}", self.as_hex())
+            }
+            HashReturn::SHA256(_) => {
+                format!("sha256: {}", self.as_hex())
+            }
+            HashReturn::SHA3_256(_) => {
+                format!("sha3_256: {}", self.as_hex())
+            }
+            HashReturn::BLAKE256(_) => {
+                format!("blake256: {}", self.as_hex())
+            }
+            HashReturn::BLAKE512(_) => {
+                format!("blake512: {}", self.as_hex())
+            }
+            HashReturn::BLAKE3(_) => {
+                format!("blake3: {}", self.as_hex())
+            }
+            HashReturn::SHA1(_) => {
+                format!("sha1: {}", self.as_hex())
+            }
+            HashReturn::MD5(_) => {
+                format!("md5: {}", self.as_hex())
+            }
+            HashReturn::RAW(_) => {
+                format!("raw: {}", self.as_hex())
+            }
         }
     }
 }
