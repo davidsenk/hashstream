@@ -12,7 +12,7 @@ keywords = ["hash", "console", "cli", "stream"]
 categories = ["command-line-utilities", "development-tools"]
 
 [features]
-default = ["nobin"]
+default = []
 nobin = []
 
 [lints.rust]
