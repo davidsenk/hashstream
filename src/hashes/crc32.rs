@@ -8,7 +8,6 @@ pub enum CRC32TYPE {
 }
 
 pub struct CRC32 {
-    hash: BITS32,
     crc32type: CRC32TYPE,
     digester: ::crc::Digest<'static, u32, Table<16>>,
 }
@@ -18,7 +17,6 @@ const CRC32_ISO: ::crc::Crc<u32, Table<16>> =
     ::crc::Crc::<u32, Table<16>>::new(&::crc::CRC_32_ISO_HDLC);
 pub fn crc32_iso() -> CRC32 {
     CRC32 {
-        hash: 0,
         crc32type: CRC32TYPE::ISO,
         digester: CRC32_ISO.digest(),
     }
@@ -29,7 +27,6 @@ const CRC32_XFER: ::crc::Crc<u32, Table<16>> =
     ::crc::Crc::<u32, Table<16>>::new(&::crc::CRC_32_XFER);
 pub fn crc32_xfer() -> CRC32 {
     CRC32 {
-        hash: 0,
         crc32type: CRC32TYPE::XFER,
         digester: CRC32_XFER.digest(),
     }
@@ -40,7 +37,6 @@ const CRC32_CKSUM: ::crc::Crc<u32, Table<16>> =
     ::crc::Crc::<u32, Table<16>>::new(&::crc::CRC_32_CKSUM);
 pub fn crc32_cksum() -> CRC32 {
     CRC32 {
-        hash: 0,
         crc32type: CRC32TYPE::CKSUM,
         digester: CRC32_CKSUM.digest(),
     }
