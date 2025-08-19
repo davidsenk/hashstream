@@ -1,6 +1,7 @@
 use super::*;
 use crc::Table;
 
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum CRC32TYPE {
     CKSUM,
     XFER,
@@ -53,7 +54,7 @@ impl Hasher for CRC32 {
     }
 
     fn complete(self) -> HashReturn {
-        HashReturn::CRC32(self.digester.finalize())
+        HashReturn::CRC32(self.digester.finalize(), self.crc32type)
     }
 }
 

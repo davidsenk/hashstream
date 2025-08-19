@@ -38,7 +38,7 @@ fn bits512_default() -> BITS512 {
 
 #[derive(Debug, PartialEq)]
 pub enum HashReturn {
-    CRC32(BITS32),
+    CRC32(BITS32, crc32::CRC32TYPE),
     SHA256(BITS256),
     SHA3_256(BITS256),
     BLAKE256(BITS256),
@@ -52,7 +52,7 @@ pub enum HashReturn {
 impl HashReturn {
     pub fn into_bytes(self) -> Arc<[u8]> {
         match self {
-            HashReturn::CRC32(inner) => Arc::new(inner.to_be_bytes()),
+            HashReturn::CRC32(inner, _) => Arc::new(inner.to_be_bytes()),
             HashReturn::SHA256(inner) => Arc::new(inner),
             HashReturn::SHA3_256(inner) => Arc::new(inner),
             HashReturn::BLAKE256(inner) => Arc::new(inner),
