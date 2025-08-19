@@ -64,7 +64,7 @@ fn main() {
     let stdin = stdin();
     let mut lock = stdin.lock();
 
-    let mut buf = [0u8; 1024];
+    let mut buf = [0u8; 1_000_000];
 
     while let Ok(count) = lock.read(&mut buf) {
         if count > 0 {
