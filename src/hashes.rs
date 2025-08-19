@@ -113,7 +113,9 @@ impl Hashes {
                     crc32::CRC32TYPE::CKSUM => {
                         hashers.push(HasherHolder::CRC32(crc32::crc32_cksum()))
                     }
-                    crc32::CRC32TYPE::XFER => hashers.push(HasherHolder::CRC32(crc32_xfer())),
+                    crc32::CRC32TYPE::XFER => {
+                        hashers.push(HasherHolder::CRC32(crc32::crc32_xfer()))
+                    }
                 },
                 HashType::SHA256 => hashers.push(HasherHolder::SHA256(sha256::SHA256::new())),
                 HashType::SHA3_256 => {
