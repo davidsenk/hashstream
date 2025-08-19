@@ -7,7 +7,6 @@ use hashstream::{CRC32TYPE, HashType, Hashes};
 
 use clap::Parser;
 
-use std::io;
 use std::io::{Read, stdin};
 use std::process::exit;
 
