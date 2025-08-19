@@ -65,7 +65,7 @@ impl HashReturn {
     }
 }
 
-pub trait Hasher {
+trait Hasher {
     fn new() -> Self;
     fn digest(&mut self, bytes: impl AsRef<[u8]>);
     fn complete(self) -> HashReturn;
