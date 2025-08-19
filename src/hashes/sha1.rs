@@ -1,10 +1,9 @@
 use super::*;
-use ::sha1::digest::core_api::CoreWrapper;
-use ::sha1::{Digest, Sha1, Sha1Core};
+use ::sha1::{Digest, Sha1};
 
 pub struct SHA1 {
     hash: BITS160,
-    hasher: CoreWrapper<Sha1Core>,
+    hasher: Sha1,
 }
 
 impl Hasher for SHA1 {

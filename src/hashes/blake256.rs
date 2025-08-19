@@ -1,11 +1,10 @@
 use super::*;
-use ::blake2::Blake2bVarCore;
 use ::blake2::digest::{Update, VariableOutput};
-use blake2::digest::core_api::RtVariableCoreWrapper;
+use blake2::Blake2bVar;
 
 pub struct BLAKE256 {
     hash: BITS256,
-    hasher: RtVariableCoreWrapper<Blake2bVarCore>,
+    hasher: Blake2bVar,
 }
 
 impl Hasher for BLAKE256 {

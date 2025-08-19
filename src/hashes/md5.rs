@@ -1,10 +1,9 @@
 use super::*;
-use ::md5::digest::core_api::CoreWrapper;
-use ::md5::{Digest, Md5, Md5Core};
+use ::md5::{Digest, Md5};
 
 pub struct MD5 {
     hash: BITS128,
-    hasher: CoreWrapper<Md5Core>,
+    hasher: Md5,
 }
 
 impl Hasher for MD5 {

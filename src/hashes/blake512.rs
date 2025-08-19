@@ -1,11 +1,9 @@
 use super::*;
-use ::blake2::Blake2bVarCore;
-use ::blake2::digest::{Update, VariableOutput};
-use blake2::digest::core_api::RtVariableCoreWrapper;
+use blake2::{Blake2b512, Digest};
 
 pub struct BLAKE512 {
     hash: BITS512,
-    hasher: RtVariableCoreWrapper<Blake2bVarCore>,
+    hasher: Blake2b512,
 }
 
 impl Hasher for BLAKE512 {
@@ -14,7 +12,7 @@ impl Hasher for BLAKE512 {
             hash: [0; 64],
             // Variable size was done instead of using Blake2b512 type alias as the concrete type
             // that would need to be defined in the struct BLAKE512 is silly
-            hasher: ::blake2::Blake2bVar::new(64).unwrap(),
+            hasher: ::blake2::Blake2b512::new(),
         }
     }
 
@@ -23,7 +21,7 @@ impl Hasher for BLAKE512 {
     }
 
     fn complete(mut self) -> HashReturn {
-        let res = self.hasher.finalize_boxed();
+        let res = self.hasher.finalize();
         self.hash.copy_from_slice(&res);
         HashReturn::BLAKE512(self.hash)
     }
