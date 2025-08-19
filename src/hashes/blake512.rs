@@ -17,7 +17,7 @@ impl Hasher for BLAKE512 {
     }
 
     fn digest(&mut self, bytes: impl AsRef<[u8]>) {
-        self.hasher.update(bytes.as_ref())
+        self.hasher.update(bytes)
     }
 
     fn complete(mut self) -> HashReturn {
