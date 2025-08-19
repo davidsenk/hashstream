@@ -18,6 +18,13 @@ nobin = []
 [lints.rust]
 unsafe_code = "forbid"
 
+[profile.release]
+codegen-units = 1
+lto = "fat"
+opt-level = 3
+strip = "symbols"
+panic = "abort"
+
 [dependencies]
 blake2 = "0.10.6"
 blake3 = "1.8.2"
