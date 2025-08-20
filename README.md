@@ -11,6 +11,7 @@ Useful for coordinating systems that provide different hashtypes for stored blob
 # Usage
 
 ` dd if=/dev/zero bs=4M count=250 status=progress | hashstream --sha256 `
+
 ` hashstream --all < /home/user/somefile.dat `
 
 ```
